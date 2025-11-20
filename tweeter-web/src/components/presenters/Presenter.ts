@@ -1,3 +1,4 @@
+import { FollowService } from "../services/FollowService";
 import { StatusService } from "../services/StatusService";
 import { UserService } from "../services/UserService";
 
@@ -12,12 +13,16 @@ export abstract class Presenter<V extends View> {
   }
   protected _userService = new UserService();
   protected _statusService = new StatusService();
+  protected _followService = new FollowService();
 
   public get statusService() {
     return this._statusService;
   }
   public get userService() {
     return this._userService;
+  }
+  public get followService() {
+    return this._followService;
   }
   protected async doFailureReportingOperation(
     operation: () => Promise<void>,

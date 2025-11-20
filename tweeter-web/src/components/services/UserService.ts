@@ -7,36 +7,21 @@ export class UserService {
   ): Promise<User | null> => {
     // TODO: Replace with the result of calling server
     return FakeData.instance.findUserByAlias(alias);
-  }
-  public getFollowers = async (
-    authToken: AuthToken,
-    userAlias: string,
-    pageSize: number,
-    lastFollowee: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastFollowee, pageSize, userAlias);
-  }
-  public getFollowees = async (
-    authToken: AuthToken,
-    userAlias: string,
-    pageSize: number,
-    lastFollowee: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastFollowee, pageSize, userAlias);
-  }
-  public login = (alias: string, password: string): [User | null, AuthToken] => {
+  };
+  public login = (
+    alias: string,
+    password: string
+  ): [User | null, AuthToken] => {
     return [FakeData.instance.firstUser, FakeData.instance.authToken];
-  }
-  public async register(
+  };
+  public register = async (
     firstName: string,
     lastName: string,
     alias: string,
     password: string,
     userImageBytes: Uint8Array,
     imageFileExtension: string
-  ): Promise<[User | null, AuthToken]> {
+  ): Promise<[User | null, AuthToken]> => {
     return [FakeData.instance.firstUser, FakeData.instance.authToken];
   }
   logout = async (authToken: AuthToken): Promise<void> => {
