@@ -1,7 +1,6 @@
 import { TweeterRequest } from "./TweeterRequest";
-import { UserAliasRequest } from "./UserAliasRequest";
 
-export interface AuthenticationRequest {
+export interface AuthenticationRequest extends TweeterRequest {
   alias: string
   password: string
 }

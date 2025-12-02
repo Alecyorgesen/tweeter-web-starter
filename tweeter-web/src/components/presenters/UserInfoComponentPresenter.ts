@@ -23,7 +23,7 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
     currentUser: User,
     displayedUser: User
   ) => {
-    this.doFailureReportingOperation(
+    await this.doFailureReportingOperation(
       async () => {
         if (currentUser === displayedUser) {
           this.view.setIsFollower(false);
@@ -40,7 +40,7 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
   };
 
   setNumbFollowees = async (authToken: AuthToken, displayedUser: User) => {
-    this.doFailureReportingOperation(
+    await this.doFailureReportingOperation(
       async () => {
         this.view.setFolloweeCount(await this.followService.getFolloweeCount(
           authToken,
@@ -51,7 +51,7 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
     );
   };
   setNumbFollowers = async (authToken: AuthToken, displayedUser: User) => {
-    this.doFailureReportingOperation(
+    await this.doFailureReportingOperation(
       async () => {
         this.view.setFollowerCount(await this.followService.getFollowerCount(
           authToken,
@@ -66,7 +66,7 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
     event.preventDefault();
 
     var followingUserToast = "";
-    this.doFailureReportingOperation(
+    await this.doFailureReportingOperation(
       async () => {
         this.view.setIsLoading(true)
         followingUserToast = this.view.displayInfoMessage(
@@ -102,7 +102,7 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
     event.preventDefault();
 
     var unfollowingUserToast = "";
-    this.doFailureReportingOperation(
+    await this.doFailureReportingOperation(
       async () => {
         this.view.setIsLoading(true);
         unfollowingUserToast = this.view.displayInfoMessage(

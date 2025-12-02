@@ -1,6 +1,14 @@
-import { AuthToken, User, FakeData } from "tweeter-shared";
+import {
+  AuthToken,
+  User,
+  FakeData,
+  PagedItemRequest,
+  UserDto,
+} from "tweeter-shared";
+import { ServerFacade } from "../server/ServerFacade";
 
 export class FollowService {
+  serverFacade = new ServerFacade();
   getIsFollowerStatus = async (
     authToken: AuthToken,
     user: User,
@@ -32,8 +40,14 @@ export class FollowService {
     pageSize: number,
     lastFollowee: User | null
   ): Promise<[User[], boolean]> => {
-    return FakeData.instance.getPageOfUsers(lastFollowee, pageSize, userAlias)
-  }
+    const request: PagedItemRequest<UserDto> = {
+      token: authToken.token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastFollowee ? lastFollowee.dto : null,
+    };
+    return await this.serverFacade.getMoreFollowees(request);
+  };
 
   getFollowers = async (
     authToken: AuthToken,
@@ -41,8 +55,14 @@ export class FollowService {
     pageSize: number,
     lastFollower: User | null
   ): Promise<[User[], boolean]> => {
-    return FakeData.instance.getPageOfUsers(lastFollower, pageSize, userAlias)
-  }
+    const request: PagedItemRequest<UserDto> = {
+      token: authToken.token,
+      userAlias: userAlias,
+      pageSize: pageSize,
+      lastItem: lastFollower ? lastFollower.dto : null,
+    };
+    return await this.serverFacade.getMoreFollowers(request);
+  };
 
   follow = async (
     authToken: AuthToken,
@@ -50,14 +70,12 @@ export class FollowService {
     followeeAlias: string
   ) => {
     await new Promise((f) => setTimeout(f, 2000));
-    
-  }
+  };
   unfollow = async (
     authToken: AuthToken,
     userAlias: string,
     followeeAlias: string
   ) => {
     await new Promise((f) => setTimeout(f, 2000));
-    
-  }
+  };
 }
