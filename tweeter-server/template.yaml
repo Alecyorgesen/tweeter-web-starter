@@ -164,6 +164,71 @@ Resources:
                 responses: *commonAmazonResponses
               responses: *commonSwaggerResponses
 
+          /follow/getFollowerCount:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getFollowerCount.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /follow/getFolloweeCount:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getFolloweeCount.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /follow/getIsFollowerStatus:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getIsFollowerStatus.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /follow/follow:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${follow.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /follow/unfollow:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${unfollow.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
   #
   # SQS Queues  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
   #
@@ -256,6 +321,76 @@ Resources:
           Properties:
             RestApiId: !Ref tweeterApi
             Path: /follow/getFollowers
+            Method: POST
+
+  getFollowerCount:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowerCount
+      Handler: lambda/follow/GetFollowerCountLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/getFollowerCount
+            Method: POST
+
+  getFolloweeCount:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFolloweeCount
+      Handler: lambda/follow/GetFolloweeCountLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/getFolloweeCount
+            Method: POST
+
+  getIsFollowerStatus:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getIsFollowerStatus
+      Handler: lambda/follow/GetIsFollowerStatusLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/getIsFollowerStatus
+            Method: POST
+
+  follow:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: follow
+      Handler: lambda/follow/FollowLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/follow
+            Method: POST
+
+  unfollow:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: unfollow
+      Handler: lambda/follow/UnfollowLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/unfollow
             Method: POST
 
   #

@@ -3,21 +3,21 @@ import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
 export class FollowService {
   getIsFollowerStatus = async (
     token: string,
-    user: UserDto,
-    selectedUser: UserDto
+    userAlias: string,
+    selectedUserAlias: string
   ): Promise<boolean> => {
     // TODO: Replace with the result of calling server
     return FakeData.instance.isFollower();
   };
 
-  getFolloweeCount = async (token: string, user: UserDto): Promise<number> => {
+  getFolloweeCount = async (token: string, userAlias: string): Promise<number> => {
     // TODO: Replace with the result of calling server
-    return FakeData.instance.getFolloweeCount(user.alias);
+    return FakeData.instance.getFolloweeCount(userAlias);
   };
 
-  getFollowerCount = async (token: string, user: UserDto): Promise<number> => {
+  getFollowerCount = async (token: string, userAlias: string): Promise<number> => {
     // TODO: Replace with the result of calling server
-    return FakeData.instance.getFollowerCount(user.alias);
+    return FakeData.instance.getFollowerCount(userAlias);
   };
 
   getFollowees = async (

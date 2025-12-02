@@ -15,11 +15,15 @@ export type { FollowDto } from "./model/dto/FollowDto";
 export type { StatusDto } from "./model/dto/StatusDto";
 
 //Requests
+export type { TweeterRequest } from "./model/net/request/TweeterRequest"
 export type { PagedUserItemRequest } from "./model/net/request/PagedUserItemRequest";
+export type { DisplayedUserRequest } from "./model/net/request/DisplayedUserRequest";
 
 //Responses
 export type { PagedUserItemResponse } from "./model/net/response/PagedUserItemResponse"
 export type { TweeterResponse } from "./model/net/response/TweeterResponse"
+export type { QuantityResponse } from "./model/net/response/QuantityResponse"
+export type { IsFollowerResponse } from "./model/net/response/IsFollowerResponse"
 
 //Other
 export { FakeData } from "./util/FakeData";
