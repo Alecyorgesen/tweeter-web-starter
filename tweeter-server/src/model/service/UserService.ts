@@ -2,7 +2,7 @@ import { AuthToken, User, FakeData, UserDto } from "tweeter-shared";
 
 export class UserService {
   public getUser = async (
-    authToken: AuthToken,
+    token: string,
     alias: string
   ): Promise<UserDto | null> => {
     // TODO: Replace with the result of calling server
@@ -17,12 +17,12 @@ export class UserService {
   public login = (
     alias: string,
     password: string
-  ): [UserDto | null, AuthToken] => {
+  ): [UserDto | null, string] => {
     const [firstUser, authToken] = [FakeData.instance.firstUser, FakeData.instance.authToken];
     if (firstUser) {
-      return [firstUser.dto, authToken]
+      return [firstUser.dto, authToken.token]
     } else {
-      return [null, authToken]
+      return [null, authToken.token]
     }
   };
 
@@ -33,16 +33,16 @@ export class UserService {
     password: string,
     userImageBytes: Uint8Array,
     imageFileExtension: string
-  ): Promise<[UserDto | null, AuthToken]> => {
+  ): Promise<[UserDto | null, string]> => {
     const [firstUser, authToken] = [FakeData.instance.firstUser, FakeData.instance.authToken];
     if (firstUser) {
-      return [firstUser.dto, authToken]
+      return [firstUser.dto, authToken.token]
     } else {
-      return [null, authToken]
+      return [null, authToken.token]
     }
   };
 
-  public logout = async (authToken: AuthToken): Promise<void> => {
+  public logout = async (token: string): Promise<void> => {
     // Pause so we can see the logging out message. Delete when the call to the server is implemented.
     await new Promise((res) => setTimeout(res, 1000));
   };

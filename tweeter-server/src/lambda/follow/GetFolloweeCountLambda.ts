@@ -1,8 +1,8 @@
-import { QuantityResponse, TweeterRequest } from "tweeter-shared";
+import { QuantityResponse, TweeterRequest, UserAliasRequest } from "tweeter-shared";
 import { FollowService } from "../../model/service/FollowService";
 
 export const handler = async (
-  request: TweeterRequest
+  request: UserAliasRequest
 ): Promise<QuantityResponse> => {
   const followService = new FollowService();
   const followee_number = await followService.getFolloweeCount(
