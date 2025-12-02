@@ -11,6 +11,8 @@ export { AuthToken } from "./model/domain/AuthToken";
 
 //Dtos
 export type { UserDto } from "./model/dto/UserDto";
+export type { FollowDto } from "./model/dto/FollowDto";
+export type { StatusDto } from "./model/dto/StatusDto";
 
 //Requests
 export type { PagedUserItemRequest } from "./model/net/request/PagedUserItemRequest";

@@ -19,7 +19,7 @@ export class StatusService {
     // TODO: Replace with the result of calling server
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   }
-  postStatus = async (
+  public postStatus = async (
     authToken: AuthToken,
     newStatus: Status
   ): Promise<void> => {

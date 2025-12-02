@@ -43,4 +43,21 @@ export class FollowService {
   ): Promise<[User[], boolean]> => {
     return FakeData.instance.getPageOfUsers(lastFollower, pageSize, userAlias)
   }
+
+  follow = async (
+    authToken: AuthToken,
+    userAlias: string,
+    followeeAlias: string
+  ) => {
+    await new Promise((f) => setTimeout(f, 2000));
+    
+  }
+  unfollow = async (
+    authToken: AuthToken,
+    userAlias: string,
+    followeeAlias: string
+  ) => {
+    await new Promise((f) => setTimeout(f, 2000));
+    
+  }
 }

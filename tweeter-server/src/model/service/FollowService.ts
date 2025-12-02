@@ -38,6 +38,23 @@ export class FollowService {
     return this.getFakeData(lastItem, pageSize, userAlias);
   };
 
+  follow = async (
+    token: string,
+    userAlias: string,
+    followeeAlias: string
+  ) => {
+    await new Promise((f) => setTimeout(f, 2000));
+    
+  }
+  unfollow = async (
+    token: string,
+    userAlias: string,
+    followeeAlias: string
+  ) => {
+    await new Promise((f) => setTimeout(f, 2000));
+    
+  }
+
   private async getFakeData(
     lastItem: UserDto | null,
     pageSize: number,

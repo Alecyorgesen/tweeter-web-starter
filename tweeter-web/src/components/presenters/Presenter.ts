@@ -8,7 +8,7 @@ export interface View {
 
 export abstract class Presenter<V extends View> {
   protected view: V;
-  protected constructor(view: V) {
+  constructor(view: V) {
     this.view = view;
   }
   protected _userService = new UserService();

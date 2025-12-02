@@ -138,6 +138,31 @@ Resources:
             # TODO: ADD MORE ENDPOINT DEFINITIONS HERE
             #
 
+          /follow/getFollowees:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getFollowees.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
+
+          /follow/getFollowers:
+            post:
+              consumes: *commonConsumes
+              produces: *commonProduces
+              x-amazon-apigateway-integration:
+                type: aws
+                httpMethod: POST
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getFollowers.Arn}/invocations
+                requestTemplates: *commonRequestTemplates
+                responses: *commonAmazonResponses
+              responses: *commonSwaggerResponses
 
   #
   # SQS Queues  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
@@ -205,6 +230,33 @@ Resources:
   # TODO: ADD MORE WEB API LAMBDA DEFINITIONS HERE
   #
 
+  getFollowees:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowees
+      Handler: lambda/follow/GetFolloweesLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/getFollowees
+            Method: POST
+
+  getFollowers:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getFollowers
+      Handler: lambda/follow/GetFollowersLambda.handler
+      Policies: *commonPolicies
+      Events:
+        PostApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref tweeterApi
+            Path: /follow/getFollowers
+            Method: POST
 
   #
   # SQS Queue Lambda Functions  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
