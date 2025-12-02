@@ -36,9 +36,6 @@ export class StatusService {
       lastItem: lastItem ? lastItem.dto : null,
     };
     const [statuses, hasMore] = await this.serverFacade.getFeedItems(request);
-    for (let status of statuses) {
-      console.log(status)
-    }
     return [statuses, hasMore]
   };
   public postStatus = async (

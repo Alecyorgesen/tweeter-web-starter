@@ -1,15 +1,18 @@
 import {
+  DisplayedUserRequest,
   PagedItemRequest,
   PagedItemResponse,
   Status,
   StatusDto,
+  TweeterResponse,
   User,
   UserDto,
 } from "tweeter-shared";
 import { ClientCommunicator } from "./ClientCommunicator";
 
 export class ServerFacade {
-  private SERVER_URL = "https://had8ludwu4.execute-api.us-east-1.amazonaws.com/prod";
+  private SERVER_URL =
+    "https://had8ludwu4.execute-api.us-east-1.amazonaws.com/prod";
 
   private clientCommunicator = new ClientCommunicator(this.SERVER_URL);
 
@@ -67,7 +70,7 @@ export class ServerFacade {
     }
   }
 
-public async getStoryItems(
+  public async getStoryItems(
     request: PagedItemRequest<StatusDto>
   ): Promise<[Status[], boolean]> {
     const response = await this.clientCommunicator.doPost<
@@ -94,7 +97,7 @@ public async getStoryItems(
     }
   }
 
-public async getFeedItems(
+  public async getFeedItems(
     request: PagedItemRequest<StatusDto>
   ): Promise<[Status[], boolean]> {
     const response = await this.clientCommunicator.doPost<
@@ -111,10 +114,38 @@ public async getFeedItems(
     // Handle errors
     if (response.success) {
       if (items == null) {
-        throw new Error(`No followers found`);
+        throw new Error(`No feed items found`);
       } else {
         return [items, response.hasMore];
       }
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async follow(request: DisplayedUserRequest): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      DisplayedUserRequest,
+      TweeterResponse
+    >(request, "/follow/follow");
+
+    // Handle errors
+    if (response.success) {
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async unfollow(request: DisplayedUserRequest): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      DisplayedUserRequest,
+      TweeterResponse
+    >(request, "/follow/unfollow");
+
+    // Handle errors
+    if (response.success) {
     } else {
       console.error(response);
       throw new Error(response.message ?? undefined);

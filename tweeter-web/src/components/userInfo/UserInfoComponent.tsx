@@ -9,7 +9,7 @@ import { UserInfoComponentPresenter } from "../presenters/UserInfoComponentPrese
 const UserInfo = () => {
   const [isFollower, setIsFollower] = useState(false);
   const [followeeCount, setFolloweeCount] = useState(-1);
-  const [followerCount, setFollowerCount] = useState(-1)
+  const [followerCount, setFollowerCount] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
 
   const { displayInfoMessage, displayErrorMessage, deleteMessage } =
@@ -19,7 +19,7 @@ const UserInfo = () => {
   const { setDisplayedUser } = useContext(UserInfoActionsContext);
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(currentUser, displayedUser);
   const listener = {
     displayErrorMessage: displayErrorMessage,
     displayInfoMessage: displayInfoMessage,
@@ -35,19 +35,23 @@ const UserInfo = () => {
     currentUser: currentUser,
     displayedUser: displayedUser,
     authToken: authToken,
-  }
+  };
 
   const presenter = useRef<UserInfoComponentPresenter | null>(null);
-  if (!presenter.current) {
-    presenter.current = new UserInfoComponentPresenter(listener);
-  }
+  // if (!presenter.current) {
+  presenter.current = new UserInfoComponentPresenter(listener);
+  // }
 
   if (!displayedUser) {
     setDisplayedUser(currentUser!);
   }
 
   useEffect(() => {
-    presenter.current!.setIsFollowerStatus(authToken!, currentUser!, displayedUser!);
+    presenter.current!.setIsFollowerStatus(
+      authToken!,
+      currentUser!,
+      displayedUser!
+    );
     presenter.current!.setNumbFollowees(authToken!, displayedUser!);
     presenter.current!.setNumbFollowers(authToken!, displayedUser!);
   }, [displayedUser]);

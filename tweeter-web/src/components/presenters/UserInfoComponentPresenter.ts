@@ -74,6 +74,9 @@ export class UserInfoComponentPresenter extends Presenter<UserInfoComponentView>
           0
         );
 
+        console.log(this.view.currentUser)
+        console.log(this.view.displayedUser)
+
         await this.followService.follow(
           this.view.authToken!,
           this.view.currentUser!.alias,
