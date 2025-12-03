@@ -1,7 +1,6 @@
 import {
   AuthToken,
   User,
-  FakeData,
   PagedItemRequest,
   UserDto,
   DisplayedUserRequest,

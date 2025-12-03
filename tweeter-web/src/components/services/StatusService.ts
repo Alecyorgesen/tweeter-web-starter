@@ -1,7 +1,6 @@
 import {
   AuthToken,
   Status,
-  FakeData,
   StatusDto,
   PagedItemRequest,
   PostStatusRequest,
