@@ -1,18 +1,36 @@
-import { AuthToken, User, FakeData } from "tweeter-shared";
+import {
+  AuthToken,
+  User,
+  FakeData,
+  UserAliasRequest,
+  AuthenticationRequest,
+  RegisterRequest,
+  TweeterRequest,
+} from "tweeter-shared";
+import { ServerFacade } from "../server/ServerFacade";
 
 export class UserService {
+  serverFacade = new ServerFacade();
   public getUser = async (
     authToken: AuthToken,
     alias: string
   ): Promise<User | null> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
+    const request: UserAliasRequest = {
+      token: authToken.token,
+      userAlias: alias,
+    };
+    return await this.serverFacade.getUser(request);
   };
-  public login = (
+  public login = async (
     alias: string,
     password: string
-  ): [User | null, AuthToken] => {
-    return [FakeData.instance.firstUser, FakeData.instance.authToken];
+  ): Promise<[User | null, AuthToken]> => {
+    const request: AuthenticationRequest = {
+      alias: alias,
+      password: password,
+      token: "",
+    };
+    return await this.serverFacade.login(request);
   };
   public register = async (
     firstName: string,
@@ -22,10 +40,21 @@ export class UserService {
     userImageBytes: Uint8Array,
     imageFileExtension: string
   ): Promise<[User | null, AuthToken]> => {
-    return [FakeData.instance.firstUser, FakeData.instance.authToken];
-  }
+    const request: RegisterRequest = {
+      firstName: firstName,
+      lastName: lastName,
+      alias: alias,
+      password: password,
+      userImageBytes: userImageBytes,
+      imageFileExtension: imageFileExtension,
+      token: "",
+    };
+    return await this.serverFacade.register(request);
+  };
   public logout = async (authToken: AuthToken): Promise<void> => {
-    // Pause so we can see the logging out message. Delete when the call to the server is implemented.
-    await new Promise((res) => setTimeout(res, 1000));
+    const request: TweeterRequest = {
+      token: authToken.token,
+    };
+    await this.serverFacade.logout(request);
   };
 }

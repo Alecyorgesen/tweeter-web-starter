@@ -3,4 +3,5 @@ import { UserResponse } from "./UserResponse";
 
 export interface AuthenticationResponse extends TweeterResponse, UserResponse {
     token: string;
+    timestamp: number;
 }

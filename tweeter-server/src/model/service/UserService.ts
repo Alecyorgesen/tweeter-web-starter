@@ -17,12 +17,12 @@ export class UserService {
   public login = (
     alias: string,
     password: string
-  ): [UserDto | null, string] => {
+  ): [UserDto | null, string, number] => {
     const [firstUser, authToken] = [FakeData.instance.firstUser, FakeData.instance.authToken];
     if (firstUser) {
-      return [firstUser.dto, authToken.token]
+      return [firstUser.dto, authToken.token, authToken.timestamp]
     } else {
-      return [null, authToken.token]
+      return [null, authToken.token, authToken.timestamp]
     }
   };
 
@@ -33,12 +33,12 @@ export class UserService {
     password: string,
     userImageBytes: Uint8Array,
     imageFileExtension: string
-  ): Promise<[UserDto | null, string]> => {
+  ): Promise<[UserDto | null, string, number]> => {
     const [firstUser, authToken] = [FakeData.instance.firstUser, FakeData.instance.authToken];
     if (firstUser) {
-      return [firstUser.dto, authToken.token]
+      return [firstUser.dto, authToken.token, authToken.timestamp]
     } else {
-      return [null, authToken.token]
+      return [null, authToken.token, authToken.timestamp]
     }
   };
 

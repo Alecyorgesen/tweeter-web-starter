@@ -1,12 +1,22 @@
 import {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  AuthToken,
   DisplayedUserRequest,
+  IsFollowerResponse,
   PagedItemRequest,
   PagedItemResponse,
+  PostStatusRequest,
+  QuantityResponse,
+  RegisterRequest,
   Status,
   StatusDto,
+  TweeterRequest,
   TweeterResponse,
   User,
+  UserAliasRequest,
   UserDto,
+  UserResponse,
 } from "tweeter-shared";
 import { ClientCommunicator } from "./ClientCommunicator";
 
@@ -144,6 +154,145 @@ export class ServerFacade {
       TweeterResponse
     >(request, "/follow/unfollow");
 
+    // Handle errors
+    if (response.success) {
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async postStatus(request: PostStatusRequest): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      PostStatusRequest,
+      TweeterResponse
+    >(request, "/status/postStatus");
+
+    // Handle errors
+    if (response.success) {
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getFollowerCount(request: UserAliasRequest): Promise<number> {
+    const response = await this.clientCommunicator.doPost<
+      UserAliasRequest,
+      QuantityResponse
+    >(request, "/follow/getFollowerCount");
+
+    // Handle errors
+    if (response.success) {
+      return response.amount;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getFolloweeCount(request: UserAliasRequest): Promise<number> {
+    const response = await this.clientCommunicator.doPost<
+      UserAliasRequest,
+      QuantityResponse
+    >(request, "/follow/getFolloweeCount");
+
+    // Handle errors
+    if (response.success) {
+      return response.amount;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getIsFollowerStatus(
+    request: DisplayedUserRequest
+  ): Promise<boolean> {
+    const response = await this.clientCommunicator.doPost<
+      DisplayedUserRequest,
+      IsFollowerResponse
+    >(request, "/follow/getIsFollowerStatus");
+
+    // Handle errors
+    if (response.success) {
+      return response.isFollower;
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async getUser(request: UserAliasRequest): Promise<User | null> {
+    const response = await this.clientCommunicator.doPost<
+      UserAliasRequest,
+      UserResponse
+    >(request, "/user/getUser");
+
+    // Handle errors
+    if (response.success) {
+      return User.fromDto(response.user);
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async login(
+    request: AuthenticationRequest
+  ): Promise<[User | null, AuthToken]> {
+    const response = await this.clientCommunicator.doPost<
+      AuthenticationRequest,
+      AuthenticationResponse
+    >(request, "/user/login");
+    console.log(response);
+    // Handle errors
+    if (response.success) {
+      if (response.user == null) {
+        throw new Error("User doesn't exist?");
+      } else {
+        return [
+          User.fromDto(response.user),
+          new AuthToken(response.token, response.timestamp),
+        ];
+      }
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async register(
+    request: RegisterRequest
+  ): Promise<[User | null, AuthToken]> {
+    const response = await this.clientCommunicator.doPost<
+      RegisterRequest,
+      AuthenticationResponse
+    >(request, "/user/register");
+    console.log(response);
+    // Handle errors
+    if (response.success) {
+      if (response.user == null) {
+        throw new Error("User doesn't exist?");
+      } else {
+        return [
+          User.fromDto(response.user),
+          new AuthToken(response.token, response.timestamp),
+        ];
+      }
+    } else {
+      console.error(response);
+      throw new Error(response.message ?? undefined);
+    }
+  }
+
+  public async logout(
+    request: TweeterRequest
+  ): Promise<void> {
+    const response = await this.clientCommunicator.doPost<
+      TweeterRequest,
+      TweeterResponse
+    >(request, "/user/logout");
     // Handle errors
     if (response.success) {
     } else {

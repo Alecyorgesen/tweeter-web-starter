@@ -5,7 +5,7 @@ export const handler = async (
   request: RegisterRequest
 ): Promise<AuthenticationResponse> => {
   const userService = new UserService();
-  const [user, token] = await userService.register(
+  const [user, token, timestamp] = await userService.register(
     request.firstName,
     request.lastName,
     request.alias,
@@ -18,5 +18,6 @@ export const handler = async (
     message: null,
     user: user,
     token: token,
+    timestamp: timestamp
   }
 };

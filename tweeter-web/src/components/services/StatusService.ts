@@ -4,6 +4,7 @@ import {
   FakeData,
   StatusDto,
   PagedItemRequest,
+  PostStatusRequest,
 } from "tweeter-shared";
 import { ServerFacade } from "../server/ServerFacade";
 
@@ -35,16 +36,16 @@ export class StatusService {
       pageSize: pageSize,
       lastItem: lastItem ? lastItem.dto : null,
     };
-    const [statuses, hasMore] = await this.serverFacade.getFeedItems(request);
-    return [statuses, hasMore]
+    return await this.serverFacade.getFeedItems(request);
   };
   public postStatus = async (
     authToken: AuthToken,
     newStatus: Status
   ): Promise<void> => {
-    // Pause so we can see the logging out message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // TODO: Call the server to post the status
+    const request: PostStatusRequest = {
+      token: authToken.token,
+      status: newStatus,
+    };
+    await this.serverFacade.postStatus(request);
   };
 }

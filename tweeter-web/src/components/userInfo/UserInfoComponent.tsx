@@ -19,7 +19,6 @@ const UserInfo = () => {
   const { setDisplayedUser } = useContext(UserInfoActionsContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(currentUser, displayedUser);
   const listener = {
     displayErrorMessage: displayErrorMessage,
     displayInfoMessage: displayInfoMessage,

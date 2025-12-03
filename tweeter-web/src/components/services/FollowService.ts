@@ -4,6 +4,8 @@ import {
   FakeData,
   PagedItemRequest,
   UserDto,
+  DisplayedUserRequest,
+  UserAliasRequest,
 } from "tweeter-shared";
 import { ServerFacade } from "../server/ServerFacade";
 
@@ -14,24 +16,34 @@ export class FollowService {
     user: User,
     selectedUser: User
   ): Promise<boolean> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.isFollower();
+    const request: DisplayedUserRequest = {
+      token: authToken.token,
+      userAlias: user.alias,
+      displayedUserAlias: selectedUser.alias,
+    };
+    return await this.serverFacade.getIsFollowerStatus(request);
   };
 
   getFolloweeCount = async (
     authToken: AuthToken,
     user: User
   ): Promise<number> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getFolloweeCount(user.alias);
+    const request: UserAliasRequest = {
+      token: authToken.token,
+      userAlias: user.alias,
+    };
+    return await this.serverFacade.getFolloweeCount(request);
   };
 
   getFollowerCount = async (
     authToken: AuthToken,
     user: User
   ): Promise<number> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getFollowerCount(user.alias);
+    const request: UserAliasRequest = {
+      token: authToken.token,
+      userAlias: user.alias,
+    };
+    return await this.serverFacade.getFollowerCount(request);
   };
 
   getFollowees = async (
@@ -67,15 +79,25 @@ export class FollowService {
   follow = async (
     authToken: AuthToken,
     userAlias: string,
-    followeeAlias: string
+    displayedUserAlias: string
   ) => {
-    await new Promise((f) => setTimeout(f, 2000));
+    const request: DisplayedUserRequest = {
+      token: authToken.token,
+      userAlias: userAlias,
+      displayedUserAlias: displayedUserAlias,
+    };
+    await this.serverFacade.follow(request);
   };
   unfollow = async (
     authToken: AuthToken,
     userAlias: string,
-    followeeAlias: string
+    displayedUserAlias: string
   ) => {
-    await new Promise((f) => setTimeout(f, 2000));
+    const request: DisplayedUserRequest = {
+      token: authToken.token,
+      userAlias: userAlias,
+      displayedUserAlias: displayedUserAlias,
+    };
+    await this.serverFacade.unfollow(request);
   };
 }
