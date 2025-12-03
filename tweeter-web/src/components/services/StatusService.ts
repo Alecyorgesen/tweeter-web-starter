@@ -24,6 +24,7 @@ export class StatusService {
     };
     return await this.serverFacade.getStoryItems(request);
   };
+
   public getFeedItems = async (
     authToken: AuthToken,
     userAlias: string,
@@ -38,6 +39,7 @@ export class StatusService {
     };
     return await this.serverFacade.getFeedItems(request);
   };
+
   public postStatus = async (
     authToken: AuthToken,
     newStatus: Status
