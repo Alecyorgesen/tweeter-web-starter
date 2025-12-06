@@ -13,9 +13,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "date-fns": "^3.3.1",
     "rimraf": "^6.1.2",
     "tweeter-shared": "file:../tweeter-shared",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^24.10.1"
   }
 }

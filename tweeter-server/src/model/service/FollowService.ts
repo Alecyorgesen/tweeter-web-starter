@@ -6,17 +6,16 @@ export class FollowService {
     userAlias: string,
     selectedUserAlias: string
   ): Promise<boolean> => {
-    // TODO: Replace with the result of calling server
+    
+
     return FakeData.instance.isFollower();
   };
 
   getFolloweeCount = async (token: string, userAlias: string): Promise<number> => {
-    // TODO: Replace with the result of calling server
     return FakeData.instance.getFolloweeCount(userAlias);
   };
 
   getFollowerCount = async (token: string, userAlias: string): Promise<number> => {
-    // TODO: Replace with the result of calling server
     return FakeData.instance.getFollowerCount(userAlias);
   };
 
