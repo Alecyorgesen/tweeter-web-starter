@@ -115,12 +115,17 @@ export class FollowService {
     await this.followDAO.putFollowEntry(
       this.makeFollowEntry(userAlias, followeeAlias)
     );
+    await this.userDAO.incrementFollowerCount(followeeAlias);
+    await this.userDAO.incrementFolloweeCount(userAlias);
   };
   unfollow = async (userAlias: string, followeeAlias: string) => {
     await this.followDAO.deleteFollowEntry(
       this.makeFollowEntry(userAlias, followeeAlias)
     );
+    await this.userDAO.decrementFollowerCount(followeeAlias);
+    await this.userDAO.decrementFolloweeCount(userAlias);
   };
+
   makeFollowEntry(followerAlias: string, followeeAlias: string) {
     return {
       followerHandle: followerAlias,
