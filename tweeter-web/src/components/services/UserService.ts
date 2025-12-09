@@ -36,17 +36,15 @@ export class UserService {
     lastName: string,
     alias: string,
     password: string,
-    userImageBytes: string,
+    userImageBase64: string,
     imageFileExtension: string
   ): Promise<[User | null, AuthToken]> => {
-    const userImageBytesBase64: string =
-      Buffer.from(userImageBytes).toString("base64");
     const request: RegisterRequest = {
       firstName: firstName,
       lastName: lastName,
       alias: alias,
       password: password,
-      userImageBytes: userImageBytesBase64,
+      userImageBytes: userImageBase64,
       imageFileExtension: imageFileExtension,
       token: "",
     };

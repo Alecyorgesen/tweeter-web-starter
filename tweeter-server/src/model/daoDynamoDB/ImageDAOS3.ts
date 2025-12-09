@@ -1,4 +1,8 @@
-import { ObjectCannedACL, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  ObjectCannedACL,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { ImageDAO } from "../dao/ImageDAO";
 
 export class ImageDAOS3 implements ImageDAO {
@@ -17,6 +21,7 @@ export class ImageDAOS3 implements ImageDAO {
       Key: "image/" + fileName,
       Body: decodedImageBuffer,
       ContentType: "image/png",
+      ACL: ObjectCannedACL.public_read,
     };
     const c = new PutObjectCommand(s3Params);
     const client = new S3Client({ region: this.REGION });

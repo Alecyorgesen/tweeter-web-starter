@@ -33,7 +33,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
   }
 
   async getFollowEntry(
@@ -48,7 +47,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
 
     if (response.Item) {
       let item = response.Item;
@@ -84,7 +82,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
 
     const followees: FollowEntry[] = [];
     if (response.Items) {
@@ -175,7 +172,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
 
     const followers: FollowEntry[] = [];
     if (response.Items) {
@@ -202,7 +198,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
 
     const followers: FollowEntry[] = [];
     if (response.Items) {
@@ -229,7 +224,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
   }
 
   async getFollowerCount(alias: string): Promise<number> {

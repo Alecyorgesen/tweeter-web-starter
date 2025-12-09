@@ -33,7 +33,6 @@ export class ServerFacade {
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
     >(request, "/follow/getFollowees");
-    console.log("yoyoyooyyyoy");
     // Convert the UserDto array returned by ClientCommunicator to a User array
     const items: User[] | null =
       response.success && response.items
@@ -60,7 +59,6 @@ export class ServerFacade {
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
     >(request, "/follow/getFollowers");
-    console.log("yoyoyooyyyoy");
     // Convert the UserDto array returned by ClientCommunicator to a User array
     const items: User[] | null =
       response.success && response.items
@@ -72,7 +70,6 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No followers found`);
       } else {
-        console.log(response.hasMore);
         return [items, response.hasMore];
       }
     } else {
@@ -246,7 +243,6 @@ export class ServerFacade {
       AuthenticationRequest,
       AuthenticationResponse
     >(request, "/user/login");
-    console.log(response);
     // Handle errors
     if (response.success) {
       if (response.user == null) {
@@ -270,7 +266,6 @@ export class ServerFacade {
       RegisterRequest,
       AuthenticationResponse
     >(request, "/user/register");
-    console.log(response);
     // Handle errors
     if (response.success) {
       if (response.user == null) {

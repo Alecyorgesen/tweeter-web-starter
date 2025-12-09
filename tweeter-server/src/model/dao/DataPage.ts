@@ -6,6 +6,6 @@ export class DataPage<T> {
   constructor(values: T[], lastKey: T | null) {
     this.values = values;
     this.lastKey = lastKey;
-    this.hasMorePages = lastKey !== undefined;
+    this.hasMorePages = lastKey != null;
   }
 }
