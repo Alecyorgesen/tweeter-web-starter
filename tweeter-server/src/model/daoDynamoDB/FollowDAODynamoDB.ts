@@ -10,7 +10,6 @@ import {
 import { FollowEntry } from "../dao/FollowEntry";
 import { DataPage } from "../dao/DataPage";
 import { FollowDAO } from "../dao/FollowDAO";
-import { UserDto } from "tweeter-shared";
 
 export class FollowDAODynamoDB implements FollowDAO {
   readonly client = DynamoDBDocumentClient.from(
@@ -22,7 +21,7 @@ export class FollowDAODynamoDB implements FollowDAO {
   readonly followerAttribute = "follower_alias";
   readonly followeeAttribute = "followee_alias";
   readonly followerName = "follower_name";
-  readonly indexName = "follows_index";
+  readonly indexName = "follow_index";
   readonly followeeName = "followee_name";
 
   async putFollowEntry(followEntry: FollowEntry) {
@@ -64,11 +63,11 @@ export class FollowDAODynamoDB implements FollowDAO {
     }
   }
 
-  async getPageOfFollowees(
+  getPageOfFollowees = async (
     followerHandle: string,
     pageSize: number,
     lastItem: FollowEntry | null
-  ): Promise<DataPage<FollowEntry>> {
+  ): Promise<DataPage<FollowEntry>> => {
     const command = new QueryCommand({
       TableName: this.tableName,
       Limit: pageSize,
@@ -113,13 +112,13 @@ export class FollowDAODynamoDB implements FollowDAO {
       };
     }
     return new DataPage(followees, lastFollowEntry);
-  }
+  };
 
-  async getPageOfFollowers(
+  getPageOfFollowers = async (
     followeeHandle: string,
     pageSize: number,
     lastItem: FollowEntry | null
-  ): Promise<DataPage<FollowEntry>> {
+  ): Promise<DataPage<FollowEntry>> => {
     const command = new QueryCommand({
       TableName: this.tableName,
       IndexName: this.indexName,
@@ -164,7 +163,7 @@ export class FollowDAODynamoDB implements FollowDAO {
       };
     }
     return new DataPage(followers, lastFollowEntry);
-  }
+  };
 
   async getFollowers(followeeHandle: string) {
     const command = new QueryCommand({

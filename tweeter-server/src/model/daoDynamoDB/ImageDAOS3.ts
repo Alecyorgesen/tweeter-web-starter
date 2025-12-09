@@ -17,7 +17,6 @@ export class ImageDAOS3 implements ImageDAO {
       Key: "image/" + fileName,
       Body: decodedImageBuffer,
       ContentType: "image/png",
-      ACL: ObjectCannedACL.public_read,
     };
     const c = new PutObjectCommand(s3Params);
     const client = new S3Client({ region: this.REGION });

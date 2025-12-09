@@ -13,6 +13,6 @@ export class FollowerScrollerPresenter extends ItemScrollerPresenter<User> {
     lastItem: User | null
   ): Promise<[User[], boolean]> => {
     // TODO: Replace with the result of calling server
-    return this.followService.getFollowers(authToken, userAlias, pageSize, lastItem);
+    return await this.followService.getFollowers(authToken, userAlias, pageSize, lastItem);
   }
 }

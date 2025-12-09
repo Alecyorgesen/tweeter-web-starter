@@ -26,5 +26,6 @@ export const handler = async (
     message: null,
     items: items,
     hasMore: hasMore,
+    errorMessage: null,
   };
 };

@@ -24,5 +24,6 @@ export const handler = async (
     success: true,
     message: null,
     isFollower: isFollower,
+    errorMessage: null,
   };
 };

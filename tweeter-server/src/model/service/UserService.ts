@@ -64,7 +64,7 @@ export class UserService {
 
     const imageName = this.generateRandomLetterSequence(5);
     const imageUrl = await this.imageDAO.putImage(
-      "images/" + imageName,
+      "images/" + imageName + imageFileExtension,
       userImageBytes
     );
 

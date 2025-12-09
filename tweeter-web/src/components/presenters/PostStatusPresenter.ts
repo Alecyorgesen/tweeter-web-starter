@@ -29,7 +29,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
           "Posting status...",
           0
         );
-        const status = new Status(post, currentUser!, Date.now())
+        const status = new Status(post, currentUser!, Date.now());
         await this.statusService.postStatus(authToken!, status);
 
         this.view.setPostToEmptyString();

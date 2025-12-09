@@ -14,11 +14,10 @@ const userService = new UserService(
 export const handler = async (
   request: TweeterRequest
 ): Promise<TweeterResponse> => {
-  await authService.isTokenValid(request.token, 120000);
-
   await userService.logout(request.token);
   return {
     success: true,
     message: null,
+    errorMessage: null
   };
 };

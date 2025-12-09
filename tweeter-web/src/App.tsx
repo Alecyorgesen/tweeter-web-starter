@@ -19,6 +19,7 @@ import StatusItem from "./components/item/StatusItem";
 import UserItem from "./components/item/UserItem";
 import { StoryScrollerPresenter } from "./components/presenters/StoryScrollerPresenter";
 import { FolloweeScrollerPresenter } from "./components/presenters/FolloweeScrollerPresenter";
+import { FollowerScrollerPresenter } from "./components/presenters/FollowerScrollerPresenter";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -103,7 +104,7 @@ const AuthenticatedRoutes = () => {
               key={4}
               featurePath="followers"
               presenterFactory={(view: ItemScrollerView<User>) =>
-                new FolloweeScrollerPresenter(view)
+                new FollowerScrollerPresenter(view)
               }
               itemFactory={(props: { item: User; featurePath: string }) =>
                 UserItem(props)

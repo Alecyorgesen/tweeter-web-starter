@@ -32,5 +32,6 @@ export const handler = async (
     message: null,
     items: statuses,
     hasMore: hasMore,
+    errorMessage: null,
   };
 };

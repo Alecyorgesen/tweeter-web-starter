@@ -33,7 +33,7 @@ export class ServerFacade {
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
     >(request, "/follow/getFollowees");
-
+    console.log("yoyoyooyyyoy");
     // Convert the UserDto array returned by ClientCommunicator to a User array
     const items: User[] | null =
       response.success && response.items
@@ -49,7 +49,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -60,7 +60,7 @@ export class ServerFacade {
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
     >(request, "/follow/getFollowers");
-
+    console.log("yoyoyooyyyoy");
     // Convert the UserDto array returned by ClientCommunicator to a User array
     const items: User[] | null =
       response.success && response.items
@@ -72,11 +72,12 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No followers found`);
       } else {
+        console.log(response.hasMore);
         return [items, response.hasMore];
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -103,7 +104,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -130,7 +131,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -144,7 +145,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -158,7 +159,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -172,7 +173,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -187,7 +188,7 @@ export class ServerFacade {
       return response.amount;
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -202,7 +203,7 @@ export class ServerFacade {
       return response.amount;
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -219,7 +220,7 @@ export class ServerFacade {
       return response.isFollower;
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -234,7 +235,7 @@ export class ServerFacade {
       return User.fromDto(response.user);
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -258,7 +259,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
@@ -282,13 +283,11 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 
-  public async logout(
-    request: TweeterRequest
-  ): Promise<void> {
+  public async logout(request: TweeterRequest): Promise<void> {
     const response = await this.clientCommunicator.doPost<
       TweeterRequest,
       TweeterResponse
@@ -297,7 +296,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? undefined);
+      throw new Error(response.message ?? response.errorMessage ?? undefined);
     }
   }
 }

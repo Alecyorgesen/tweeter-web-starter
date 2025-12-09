@@ -27,5 +27,6 @@ export const handler = async (
     success: true,
     message: null,
     amount: followee_number,
+    errorMessage: null,
   };
 };
