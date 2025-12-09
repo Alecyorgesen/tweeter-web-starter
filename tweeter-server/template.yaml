@@ -710,7 +710,7 @@ Resources:
         - AttributeName: user_alias
           AttributeType: S
         - AttributeName: timestamp
-          AttributeType: S
+          AttributeType: N
       KeySchema:
         - AttributeName: user_alias  #####
           KeyType: HASH
@@ -729,7 +729,7 @@ Resources:
         - AttributeName: follower_alias
           AttributeType: S
         - AttributeName: timestamp
-          AttributeType: S
+          AttributeType: N
       KeySchema:
         - AttributeName: follower_alias  #####
           KeyType: HASH

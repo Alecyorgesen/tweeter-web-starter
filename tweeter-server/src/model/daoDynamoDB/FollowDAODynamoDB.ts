@@ -137,7 +137,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       },
     });
     const response = await this.client.send(command);
-    console.log(response);
 
     const followers: FollowEntry[] = [];
     if (response.Items) {

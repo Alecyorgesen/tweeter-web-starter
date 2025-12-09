@@ -1,10 +1,8 @@
-import {
-  StatusDto,
-  UserDto,
-} from "tweeter-shared";
+import { StatusDto, UserDto } from "tweeter-shared";
 import { StoryDAO } from "../dao/StoryDAO";
 import { FeedDAO } from "../dao/FeedDAO";
 import { FollowDAO } from "../dao/FollowDAO";
+import { FollowEntry } from "../dao/FollowEntry";
 
 export interface FeedDAOFactory {
   make: () => FeedDAO;
@@ -36,21 +34,31 @@ export class StatusService {
     pageSize: number,
     lastItem: StatusDto | null
   ): Promise<[StatusDto[], boolean]> => {
-    return await this.storyDAO.getPageOfStories(userAlias, pageSize, lastItem);
+    const [statuses, newLastItem] = await this.storyDAO.getPageOfStories(
+      userAlias,
+      pageSize,
+      lastItem
+    );
+    return [statuses, newLastItem == null ? false : true];
   };
   public getFeedItems = async (
     userAlias: string,
     pageSize: number,
     lastItem: StatusDto | null
   ): Promise<[StatusDto[], boolean]> => {
-    return await this.feedDAO.getPageOfFeed(userAlias, pageSize, lastItem);
+    const [statuses, newLastItem] = await this.feedDAO.getPageOfFeed(
+      userAlias,
+      pageSize,
+      lastItem
+    );
+    return [statuses, newLastItem == null ? false : true];
   };
 
   public postStatus = async (newStatus: StatusDto): Promise<void> => {
     const user = newStatus.user;
     const followers: UserDto[] = [];
     let hasMore = false;
-    let lastItem: UserDto | null = null;
+    let lastItem: FollowEntry | null = null;
     let nextFollowers: UserDto[] = [];
 
     await this.storyDAO.putStoryEntry(
@@ -60,14 +68,12 @@ export class StatusService {
     );
 
     do {
-      [nextFollowers, hasMore] = await this.followDAO.getPageOfFollowers(
+      const dataPage = await this.followDAO.getPageOfFollowers(
         user.alias,
         10,
         lastItem
       );
-      if (nextFollowers.length > 0) {
-        lastItem = nextFollowers[nextFollowers.length - 1]!;
-      }
+      lastItem = dataPage.lastKey;
       followers.push(...nextFollowers);
     } while (hasMore);
 

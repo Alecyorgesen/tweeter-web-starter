@@ -12,5 +12,5 @@ export interface StoryDAO {
     alias: string,
     pageSize: number,
     lastItem: StatusDto | null
-  ) => Promise<[StatusDto[], boolean]>;
+  ) => Promise<[StatusDto[], StatusDto | null]>;
 }
