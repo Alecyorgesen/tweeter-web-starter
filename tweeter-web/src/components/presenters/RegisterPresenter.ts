@@ -33,7 +33,7 @@ export class RegisterPresenter extends Presenter<RegisterView> {
       lastName,
       alias,
       password,
-      imageBytes,
+      imageStringBase64,
       imageFileExtension
     );
 

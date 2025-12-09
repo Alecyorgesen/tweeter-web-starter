@@ -19,11 +19,11 @@ export class AuthService {
     // You can decide how long is valid for a token to survive in miliseconds.
     const authToken = await this.authDAO.getAuth(token);
     if (!authToken) {
-      return false;
+      throw new Error("unauthorized, token doesn't exist");
     }
     if (authToken.timestamp + timeValid < Date.now()) {
       this.authDAO.removeAuth(token);
-      return false;
+      throw new Error("unauthorized, token expired");
     }
     return true;
   }
