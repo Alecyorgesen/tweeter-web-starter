@@ -34,11 +34,11 @@ export class FollowService {
   };
 
   getFolloweeCount = async (userAlias: string): Promise<number> => {
-    return await this.followDAO.getFolloweeCount(userAlias);
+    return await this.userDAO.getUserFollowersAmount(userAlias);
   };
 
   getFollowerCount = async (userAlias: string): Promise<number> => {
-    return await this.followDAO.getFollowerCount(userAlias);
+    return await this.userDAO.getUserFolloweesAmount(userAlias);
   };
 
   getFollowees = async (

@@ -11,16 +11,17 @@ import { FollowDAOFactoryDynamoDB } from "../../model/factories/FollowDAOFactory
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
 
+const authService = new AuthService(new AuthDAOFactoryDynamoDB());
+const statusService = new StatusService(
+  new FeedDAOFactoryDynamoDB(),
+  new StoryDAOFactoryDynamoDB(),
+  new FollowDAOFactoryDynamoDB()
+);
 export const handler = async (
   request: PagedItemRequest<StatusDto>
 ): Promise<PagedItemResponse<StatusDto>> => {
-  const authService = new AuthService(new AuthDAOFactoryDynamoDB());
-  authService.isTokenValid(request.token, 120000);
-  const statusService = new StatusService(
-    new FeedDAOFactoryDynamoDB(),
-    new StoryDAOFactoryDynamoDB(),
-    new FollowDAOFactoryDynamoDB()
-  );
+  await authService.isTokenValid(request.token, 120000);
+
   const [statuses, hasMore] = await statusService.getFeedItems(
     request.userAlias,
     request.pageSize,

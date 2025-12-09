@@ -9,15 +9,16 @@ import { UserDAOFactoryDynamoDB } from "../../model/factories/UserDAOFactoryDyna
 import { AuthService } from "../../model/service/AuthService";
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 
+const authService = new AuthService(new AuthDAOFactoryDynamoDB());
+const followService = new FollowService(
+  new FollowDAOFactoryDynamoDB(),
+  new UserDAOFactoryDynamoDB()
+);
+
 export const handler = async (
   request: UserAliasRequest
 ): Promise<QuantityResponse> => {
-  const authService = new AuthService(new AuthDAOFactoryDynamoDB());
-  authService.isTokenValid(request.token, 120000);
-  const followService = new FollowService(
-    new FollowDAOFactoryDynamoDB(),
-    new UserDAOFactoryDynamoDB()
-  );
+  await authService.isTokenValid(request.token, 120000);
   const followee_number = await followService.getFolloweeCount(
     request.userAlias
   );

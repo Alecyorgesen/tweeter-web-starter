@@ -13,16 +13,18 @@ import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDyna
 import { ImageDAOFactoryDynamoDB } from "../../model/factories/ImageDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
 
+const authService = new AuthService(new AuthDAOFactoryDynamoDB());
+const userService = new UserService(
+  new UserDAOFactoryDynamoDB(),
+  new AuthDAOFactoryDynamoDB(),
+  new ImageDAOFactoryDynamoDB()
+);
+
 export const handler = async (
   request: UserAliasRequest
 ): Promise<UserResponse> => {
-  const authService = new AuthService(new AuthDAOFactoryDynamoDB());
-  authService.isTokenValid(request.token, 120000);
-  const userService = new UserService(
-    new UserDAOFactoryDynamoDB(),
-    new AuthDAOFactoryDynamoDB(),
-    new ImageDAOFactoryDynamoDB()
-  );
+  await authService.isTokenValid(request.token, 120000);
+
   const user = await userService.getUser(request.userAlias);
   return {
     success: true,

@@ -9,4 +9,8 @@ export interface UserDAO {
     hashedPassword: string,
     imageFileExtension: string
   ) => Promise<[UserDto, string, number]>;
+  incrementFollowerCount: (alias: string) => Promise<void>;
+  incrementFolloweeCount: (alias: string) => Promise<void>;
+  getUserFollowersAmount: (alias: string) => Promise<number>;
+  getUserFolloweesAmount: (alias: string) => Promise<number>;
 }
