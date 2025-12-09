@@ -3,6 +3,8 @@ import { User, AuthToken } from "tweeter-shared";
 import { AuthView } from "./AuthView";
 import { Presenter } from "./Presenter";
 
+window.Buffer = Buffer;
+
 export interface RegisterView extends AuthView {
   firstName: string;
   lastName: string;

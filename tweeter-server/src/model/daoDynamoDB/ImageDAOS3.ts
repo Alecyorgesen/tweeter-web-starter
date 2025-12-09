@@ -3,7 +3,7 @@ import { ImageDAO } from "../dao/ImageDAO";
 
 export class ImageDAOS3 implements ImageDAO {
   BUCKET = "newer-s3-bucket";
-  REGION = "us-east-1";
+  REGION = "us-west-2";
   async putImage(
     fileName: string,
     imageStringBase64Encoded: string
