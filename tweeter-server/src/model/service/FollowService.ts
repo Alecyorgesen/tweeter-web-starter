@@ -3,6 +3,7 @@ import { FollowDAO } from "../dao/FollowDAO";
 import { FollowEntry } from "../dao/FollowEntry";
 import { UserDAOFactory } from "./UserService";
 import { UserDAO } from "../dao/UserDAO";
+import { DataPage } from "../dao/DataPage";
 
 export interface FollowDAOFactory {
   make: () => FollowDAO;
@@ -46,25 +47,54 @@ export class FollowService {
     pageSize: number,
     lastItem: UserDto | null
   ): Promise<[UserDto[], boolean]> => {
+    return await this.getPeople(
+      userAlias,
+      pageSize,
+      lastItem,
+      this.followDAO.getPageOfFollowees,
+      "followee"
+    );
+  };
+
+  getPeople = async (
+    userAlias: string,
+    pageSize: number,
+    lastItem: UserDto | null,
+    getPage: (
+      userAlias: string,
+      pageSize: number,
+      lastItem: FollowEntry | null
+    ) => Promise<DataPage<FollowEntry>>,
+    follow: string
+  ): Promise<[UserDto[], boolean]> => {
     let lastFollowEntry: FollowEntry | null = null;
     const userDtos: UserDto[] = [];
     if (lastItem) {
-      lastFollowEntry = this.makeFollowEntry(userAlias, lastItem.alias);
+      if (follow == "follower") {
+        lastFollowEntry = this.makeFollowEntry(lastItem.alias, userAlias);
+      } else if (follow == "followee") {
+        lastFollowEntry = this.makeFollowEntry(userAlias, lastItem.alias);
+      }
     }
-    const followeesPage = await this.followDAO.getPageOfFollowees(
-      userAlias,
-      pageSize,
-      lastFollowEntry
-    );
+    const followsPage = await getPage(userAlias, pageSize, lastFollowEntry);
 
-    for (let followEntry of followeesPage.values) {
-      const [user, password] = await this.userDAO.getUser(
-        followEntry.followeeHandle
-      );
+    for (let followEntry of followsPage.values) {
+      let handle: string;
+      if (follow == "follower") {
+        handle = followEntry.followerHandle;
+      } else if (follow == "followee") {
+        handle = followEntry.followeeHandle;
+      } else {
+        throw new Error("internal-server-error: mispelled something i reckon");
+      }
+      const [user, password] = await this.userDAO.getUser(handle);
+      if (user == null) {
+        throw Error("internal-server-error: user doesn't exist?");
+      }
       userDtos.push(user);
     }
 
-    return [userDtos, followeesPage.hasMorePages];
+    return [userDtos, followsPage.hasMorePages];
   };
 
   getFollowers = async (
@@ -72,30 +102,13 @@ export class FollowService {
     pageSize: number,
     lastItem: UserDto | null
   ): Promise<[UserDto[], boolean]> => {
-    let lastFollowEntry: FollowEntry | null = null;
-    const userDtos: UserDto[] = [];
-    if (lastItem) {
-      lastFollowEntry = {
-        followerHandle: lastItem.alias,
-        followeeHandle: userAlias,
-        followerName: "",
-        followeeName: "",
-      };
-    }
-    const followersPage = await this.followDAO.getPageOfFollowers(
+    return await this.getPeople(
       userAlias,
       pageSize,
-      lastFollowEntry
+      lastItem,
+      this.followDAO.getPageOfFollowees,
+      "follower"
     );
-
-    for (let followEntry of followersPage.values) {
-      const [user, password] = await this.userDAO.getUser(
-        followEntry.followerHandle
-      );
-      userDtos.push(user);
-    }
-
-    return [userDtos, followersPage.hasMorePages];
   };
 
   follow = async (userAlias: string, followeeAlias: string) => {

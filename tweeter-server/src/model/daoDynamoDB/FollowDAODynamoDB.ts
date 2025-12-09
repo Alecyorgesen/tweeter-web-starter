@@ -25,13 +25,6 @@ export class FollowDAODynamoDB implements FollowDAO {
   readonly indexName = "follows_index";
   readonly followeeName = "followee_name";
 
-  // getStartKey(follower_alias: string, followee_alias: string) {
-  //   return {
-  //     follower_alias: follower_alias,
-  //     followee_alias: followee_alias,
-  //   };
-  // }
-
   async putFollowEntry(followEntry: FollowEntry) {
     const command = new PutCommand({
       TableName: this.tableName,
