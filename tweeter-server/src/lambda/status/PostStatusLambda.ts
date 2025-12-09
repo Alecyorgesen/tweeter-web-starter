@@ -5,6 +5,7 @@ import { StoryDAOFactoryDynamoDB } from "../../model/factories/StoryDAOFactoryDy
 import { FollowDAOFactoryDynamoDB } from "../../model/factories/FollowDAOFactoryDynamoDB";
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
+import { TIME_VALID } from "../AuthTokenValidTime";
 
 const authService = new AuthService(new AuthDAOFactoryDynamoDB());
 const statusService = new StatusService(
@@ -15,7 +16,7 @@ const statusService = new StatusService(
 export const handler = async (
   request: PostStatusRequest
 ): Promise<TweeterResponse> => {
-  await authService.isTokenValid(request.token, 120000);
+  await authService.isTokenValid(request.token, TIME_VALID);
 
   await statusService.postStatus(request.status);
   return {

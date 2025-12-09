@@ -8,6 +8,7 @@ import { FollowDAOFactoryDynamoDB } from "../../model/factories/FollowDAOFactory
 import { UserDAOFactoryDynamoDB } from "../../model/factories/UserDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
+import { TIME_VALID } from "../AuthTokenValidTime";
 
 const authService = new AuthService(new AuthDAOFactoryDynamoDB());
 const followService = new FollowService(
@@ -18,7 +19,7 @@ const followService = new FollowService(
 export const handler = async (
   request: UserAliasRequest
 ): Promise<QuantityResponse> => {
-  await authService.isTokenValid(request.token, 120000);
+  await authService.isTokenValid(request.token, TIME_VALID);
   const followee_number = await followService.getFolloweeCount(
     request.userAlias
   );

@@ -12,6 +12,7 @@ import { UserDAOFactoryDynamoDB } from "../../model/factories/UserDAOFactoryDyna
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 import { ImageDAOFactoryDynamoDB } from "../../model/factories/ImageDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
+import { TIME_VALID } from "../AuthTokenValidTime";
 
 const authService = new AuthService(new AuthDAOFactoryDynamoDB());
 const userService = new UserService(
@@ -23,7 +24,7 @@ const userService = new UserService(
 export const handler = async (
   request: UserAliasRequest
 ): Promise<UserResponse> => {
-  await authService.isTokenValid(request.token, 120000);
+  await authService.isTokenValid(request.token, TIME_VALID);
 
   const user = await userService.getUser(request.userAlias);
   return {

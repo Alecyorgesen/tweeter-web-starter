@@ -4,6 +4,7 @@ import { FollowDAOFactoryDynamoDB } from "../../model/factories/FollowDAOFactory
 import { UserDAOFactoryDynamoDB } from "../../model/factories/UserDAOFactoryDynamoDB";
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
+import { TIME_VALID } from "../AuthTokenValidTime";
 
 const authService = new AuthService(new AuthDAOFactoryDynamoDB());
 const followService = new FollowService(
@@ -13,7 +14,7 @@ const followService = new FollowService(
 export const handler = async (
   request: DisplayedUserRequest
 ): Promise<IsFollowerResponse> => {
-  await authService.isTokenValid(request.token, 120000);
+  await authService.isTokenValid(request.token, TIME_VALID);
 
   const isFollower = await followService.getIsFollowerStatus(
     request.userAlias,
