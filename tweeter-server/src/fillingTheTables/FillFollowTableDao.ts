@@ -14,7 +14,7 @@ export class FillFollowTableDao {
   private readonly followerAliasAttribute = "follower_alias";
   private readonly followeeAliasAttribute = "followee_alias";
 
-  private readonly client = DynamoDBDocumentClient.from(new DynamoDBClient());
+  private readonly client = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "us-east-1" }));
 
   async createFollows(followeeAlias: string, followerAliasList: string[]) {
     if (followerAliasList.length == 0) {

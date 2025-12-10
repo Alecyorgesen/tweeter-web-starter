@@ -22,7 +22,7 @@ export class FillUserTableDao {
   private readonly followeeCountAttribute = "followee_count";
   private readonly followerCountAttribute = "follower_count";
 
-  private readonly client = DynamoDBDocumentClient.from(new DynamoDBClient());
+  private readonly client = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "us-east-1" }));
 
   async createUsers(userList: User[], password: string) {
     if (userList.length == 0) {
