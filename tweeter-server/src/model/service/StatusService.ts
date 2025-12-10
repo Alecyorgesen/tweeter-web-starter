@@ -5,6 +5,7 @@ import { FollowDAO } from "../dao/FollowDAO";
 import { FollowEntry } from "../dao/FollowEntry";
 import { UserDAOFactory } from "./UserService";
 import { UserDAO } from "../dao/UserDAO";
+import { UserBatch } from "../../lambda/status/UserBatch";
 
 export interface FeedDAOFactory {
   make: () => FeedDAO;
@@ -57,6 +58,25 @@ export class StatusService {
       lastItem
     );
     return [statuses, newLastItem];
+  };
+
+  public postStoryStatus = async (status: StatusDto): Promise<void> => {
+    await this.storyDAO.putStoryEntry(
+      status.user.alias,
+      status.timestamp,
+      status.post
+    );
+  };
+
+  public postBatch = async (userBatch: UserBatch): Promise<void> => {
+    for (let user of userBatch.users) {
+      await this.feedDAO.putFeedEntry(
+        user.alias,
+        userBatch.status.timestamp,
+        userBatch.status.post,
+        userBatch.status.user.alias
+      );
+    }
   };
 
   public postStatus = async (newStatus: StatusDto): Promise<void> => {
