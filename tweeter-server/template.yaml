@@ -588,33 +588,33 @@ Resources:
   # SQS Queue Lambda Functions  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
   #
 
-    FollowFetcherLambda:
-      Type: AWS::Serverless::Function
-      Properties:
-        FunctionName: FollowFetcherLambda
-        Handler: lambda/status/FollowFetcherLambda.handler
-        Policies: *commonPolicies
-        ReservedConcurrentExecutions: 50
-        Events:
-          SQSTrigger:
-            Type: SQS
-            Properties:
-              Queue: !GetAtt PostsQ.Arn
-              Enabled: true
+  FollowFetcherLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FollowFetcherLambda
+      Handler: lambda/status/FollowFetcherLambda.handler
+      Policies: *commonPolicies
+      ReservedConcurrentExecutions: 50
+      Events:
+        SQSTrigger:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt PostsQ.Arn
+            Enabled: true
 
-    JobHandlerLambda:
-      Type: AWS::Serverless::Function
-      Properties:
-        FunctionName: JobHandlerLambda
-        Handler: lambda/status/JobHandlerLambda.handler
-        Policies: *commonPolicies
-        ReservedConcurrentExecutions: 50
-        Events:
-          SQSTrigger:
-            Type: SQS
-            Properties:
-              Queue: !GetAtt JobsQ.Arn
-              Enabled: true
+  JobHandlerLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: JobHandlerLambda
+      Handler: lambda/status/JobHandlerLambda.handler
+      Policies: *commonPolicies
+      ReservedConcurrentExecutions: 50
+      Events:
+        SQSTrigger:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt JobsQ.Arn
+            Enabled: true
 
   #
   # DynamoDB Tables
