@@ -5,7 +5,8 @@ export interface FeedDAO {
   putFeedEntry: (
     alias: string,
     timestamp: number,
-    post: string
+    post: string,
+    from: string
   ) => Promise<void>;
 
   getPageOfFeed: (

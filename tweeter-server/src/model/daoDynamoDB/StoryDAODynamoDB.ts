@@ -11,7 +11,7 @@ export class StoryDAODynamoDB extends StatusDAODynamoDB implements StoryDAO {
     timestamp: number,
     post: string
   ): Promise<void> {
-    return await this.putEntry(alias, timestamp, post);
+    return await this.putEntry(alias, timestamp, post, alias);
   }
 
   async getPageOfStories(

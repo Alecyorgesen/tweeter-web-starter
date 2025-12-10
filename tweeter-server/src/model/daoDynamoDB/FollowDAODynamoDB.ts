@@ -65,7 +65,6 @@ export class FollowDAODynamoDB implements FollowDAO {
     const command = new QueryCommand({
       TableName: this.tableName,
       Limit: pageSize,
-      ScanIndexForward: false,
       KeyConditionExpression: `${this.followerAttribute} = :h`,
       ExclusiveStartKey:
         lastItem == null
@@ -113,7 +112,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       TableName: this.tableName,
       IndexName: this.indexName,
       Limit: pageSize,
-      ScanIndexForward: false,
       KeyConditionExpression: `${this.followeeAttribute} = :h`,
       ExclusiveStartKey:
         lastItem == null

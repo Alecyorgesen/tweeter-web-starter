@@ -5,7 +5,7 @@ export interface StoryDAO {
   putStoryEntry: (
     alias: string,
     timestamp: number,
-    post: string
+    post: string,
   ) => Promise<void>;
 
   getPageOfStories: (

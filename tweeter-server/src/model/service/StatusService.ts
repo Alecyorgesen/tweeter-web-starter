@@ -78,17 +78,21 @@ export class StatusService {
         lastItem
       );
       for (let followEntry of dataPage.values) {
-        const [userDto, password] = await this.userDAO.getUser(followEntry.followerHandle);
+        const [userDto, password] = await this.userDAO.getUser(
+          followEntry.followerHandle
+        );
         followers.push(userDto!);
       }
       lastItem = dataPage.lastKey;
+      hasMore = dataPage.hasMorePages;
     } while (hasMore);
 
     for (let follower of followers) {
       await this.feedDAO.putFeedEntry(
         follower.alias,
         newStatus.timestamp,
-        newStatus.post
+        newStatus.post,
+        user.alias
       );
     }
   };

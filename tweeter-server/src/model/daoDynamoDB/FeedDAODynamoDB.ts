@@ -9,9 +9,10 @@ export class FeedDAODynamoDB extends StatusDAODynamoDB implements FeedDAO {
   async putFeedEntry(
     alias: string,
     timestamp: number,
-    post: string
+    post: string,
+    from: string,
   ): Promise<void> {
-    return await this.putEntry(alias, timestamp, post);
+    return await this.putEntry(alias, timestamp, post, from);
   }
 
   async getPageOfFeed(

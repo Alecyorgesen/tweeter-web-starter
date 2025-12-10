@@ -4,7 +4,8 @@ import {
   PutCommand,
   DynamoDBDocumentClient,
 } from "@aws-sdk/lib-dynamodb";
-import { StatusDto } from "tweeter-shared";
+import { StatusDto, UserDto } from "tweeter-shared";
+import { UserDAO } from "../dao/UserDAO";
 
 export abstract class StatusDAODynamoDB {
   readonly client = DynamoDBDocumentClient.from(
@@ -16,11 +17,17 @@ export abstract class StatusDAODynamoDB {
   aliasAttribute = "";
   readonly timestampAttribute = "timestamp";
   readonly postAttribute = "post";
+  readonly fromAttribute = "from";
+  userDAO: UserDAO;
+  constructor(userDAO: UserDAO) {
+    this.userDAO = userDAO;
+  }
 
   async putEntry(
     alias: string,
     timestamp: number,
-    post: string
+    post: string,
+    from: string
   ): Promise<void> {
     const command = new PutCommand({
       TableName: this.tableName,
@@ -28,6 +35,7 @@ export abstract class StatusDAODynamoDB {
         [this.postAttribute]: post,
         [this.aliasAttribute]: alias,
         [this.timestampAttribute]: timestamp,
+        [this.fromAttribute]: from,
       },
     });
     const response = await this.client.send(command);
@@ -41,12 +49,13 @@ export abstract class StatusDAODynamoDB {
     const command = new QueryCommand({
       TableName: this.tableName,
       Limit: pageSize,
+      ScanIndexForward: false,
       KeyConditionExpression: `${this.aliasAttribute} = :h`,
       ExclusiveStartKey:
         lastItem == null
           ? undefined
           : {
-              [this.aliasAttribute]: lastItem.user,
+              [this.aliasAttribute]: lastItem.user.alias,
               [this.timestampAttribute]: lastItem.timestamp,
             },
       ExpressionAttributeValues: {
@@ -60,8 +69,11 @@ export abstract class StatusDAODynamoDB {
 
     const statuses: StatusDto[] = [];
     for (let item of response.Items) {
+      const [user, password] = await this.userDAO.getUser(
+        item[this.fromAttribute]
+      );
       const status: StatusDto = {
-        user: item[this.aliasAttribute],
+        user: user!,
         timestamp: item[this.timestampAttribute],
         post: item[this.postAttribute],
       };
@@ -69,11 +81,20 @@ export abstract class StatusDAODynamoDB {
     }
     const lastKey = response.LastEvaluatedKey;
     let lastStatus: StatusDto | null = null;
-    if (lastKey != undefined) {
+    if (lastKey) {
+      // const [user, password] = await this.userDAO.getUser(
+      //   lastKey[this.aliasAttribute]
+      // );
+      const fakeUser: UserDto = {
+        firstName: "",
+        lastName: "",
+        alias: lastKey[this.aliasAttribute],
+        imageUrl: "",
+      };
       lastStatus = {
-        user: lastKey[this.aliasAttribute],
+        user: fakeUser!,
         timestamp: lastKey[this.timestampAttribute],
-        post: lastKey[this.postAttribute],
+        post: "",
       };
     }
     return [statuses, lastStatus];
