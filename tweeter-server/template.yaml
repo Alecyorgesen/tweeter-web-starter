@@ -326,10 +326,15 @@ Resources:
   # SQS Queues  (This will become relevant in Milestone 4. For M3, leave this section commented out.)
   #
 
-  #   MyQueue:
-  #     Type: AWS::SQS::Queue
-  #     Properties:
-  #       QueueName: MyQueue
+  PostsQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: PostsQ
+
+  JobsQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: JobsQ
 
 
   #
@@ -594,7 +599,6 @@ Resources:
       FunctionName: FollowFetcherLambda
       Handler: lambda/status/FollowFetcherLambda.handler
       Policies: *commonPolicies
-      ReservedConcurrentExecutions: 50
       Events:
         SQSTrigger:
           Type: SQS
@@ -608,7 +612,6 @@ Resources:
       FunctionName: JobHandlerLambda
       Handler: lambda/status/JobHandlerLambda.handler
       Policies: *commonPolicies
-      ReservedConcurrentExecutions: 50
       Events:
         SQSTrigger:
           Type: SQS
