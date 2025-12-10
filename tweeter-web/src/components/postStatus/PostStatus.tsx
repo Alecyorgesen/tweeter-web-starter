@@ -1,6 +1,5 @@
 import "./PostStatus.css";
 import { useRef, useState } from "react";
-import { AuthToken, Status } from "tweeter-shared";
 import { useMessageActions } from "../hooks/MessageHooks";
 import { useUserInfo } from "../userInfo/UserInfoHooks";
 import {
@@ -21,7 +20,8 @@ const PostStatus = (props: props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   let listener: PostStatusView = {
-    setIsLoading: setIsLoading,
+    setLoadingTrue: () => setIsLoading(true),
+    setLoadingFalse: () => setIsLoading(false),
     post: post,
     currentUser: currentUser,
     authToken: authToken,
@@ -69,11 +69,7 @@ const PostStatus = (props: props) => {
           disabled={checkButtonStatus()}
           style={{ width: "8em" }}
           onClick={() =>
-            presenter.current!.postStatus(
-              authToken,
-              post,
-              currentUser!
-            )
+            presenter.current!.postStatus(authToken, post, currentUser!)
           }
         >
           {isLoading ? (

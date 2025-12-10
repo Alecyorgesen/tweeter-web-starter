@@ -4,7 +4,8 @@ import { Presenter, View } from "./Presenter";
 import { MessageView } from "./View";
 
 export interface PostStatusView extends MessageView {
-  setIsLoading: (value: React.SetStateAction<boolean>) => void;
+  setLoadingTrue: () => void;
+  setLoadingFalse: () => void;
   post: string;
   currentUser: User | null;
   authToken: AuthToken | null;
@@ -24,7 +25,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
     var postingStatusToastId = "";
     await this.doFailureReportingOperation(
       async () => {
-        this.view.setIsLoading(true);
+        this.view.setLoadingTrue();
         postingStatusToastId = this.view.displayInfoMessage(
           "Posting status...",
           0
@@ -38,7 +39,7 @@ export class PostStatusPresenter extends Presenter<PostStatusView> {
       "post status",
       async () => {
         this.view.deleteMessage(postingStatusToastId);
-        this.view.setIsLoading(false);
+        this.view.setLoadingFalse();
       }
     );
   };
