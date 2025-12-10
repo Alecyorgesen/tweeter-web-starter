@@ -37,12 +37,15 @@ export class UserService {
     alias: string,
     password: string
   ): Promise<[UserDto | null, string, number]> => {
+    if (alias.at(0) != "@") {
+      alias = "@" + alias;
+    }
     const [existingUser, hashedPassword] = await this.userDAO.getUser(alias);
     if (!existingUser) {
-      throw Error("unauthorized");
+      throw Error("User doesn't exist");
     }
     if (!(await bcrypt.compare(password, hashedPassword))) {
-      throw Error("unauthorized");
+      throw Error("Password incorrect");
     }
     const authToken = await this.authService.createNewToken(alias);
     return [existingUser, authToken.token, authToken.timestamp];
@@ -57,15 +60,15 @@ export class UserService {
     imageFileExtension: string
   ): Promise<[UserDto | null, string, number]> => {
     if (alias.at(0) != "@") {
-      throw Error("bad-request: Alias requires @ first");
+      alias = "@" + alias;
     }
     if (alias.length < 2) {
-      throw Error("bad-request: Must have an alias");
+      throw Error("Must have an alias");
     }
 
     let [existingUser, hashedPassword] = await this.userDAO.getUser(alias);
     if (existingUser) {
-      throw Error("bad-request: Username already taken");
+      throw Error("Username already taken");
     }
     const newHashedPassword = await bcrypt.hash(password, 3);
 

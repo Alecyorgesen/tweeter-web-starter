@@ -11,19 +11,29 @@ const userService = new UserService(
 export const handler = async (
   request: RegisterRequest
 ): Promise<AuthenticationResponse> => {
-  const [user, token, timestamp] = await userService.register(
-    request.firstName,
-    request.lastName,
-    request.alias,
-    request.password,
-    request.userImageBytes,
-    request.imageFileExtension
-  );
-  return {
-    success: true,
-    message: null,
-    user: user,
-    token: token,
-    timestamp: timestamp,
-  };
+  try {
+    const [user, token, timestamp] = await userService.register(
+      request.firstName,
+      request.lastName,
+      request.alias,
+      request.password,
+      request.userImageBytes,
+      request.imageFileExtension
+    );
+    return {
+      success: true,
+      message: null,
+      user: user,
+      token: token,
+      timestamp: timestamp,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: (error as Error).message,
+      user: null,
+      token: "",
+      timestamp: 0,
+    };
+  }
 };

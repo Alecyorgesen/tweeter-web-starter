@@ -11,15 +11,25 @@ const userService = new UserService(
 export const handler = async (
   request: AuthenticationRequest
 ): Promise<AuthenticationResponse> => {
-  const [user, token, timestamp] = await userService.login(
-    request.alias,
-    request.password
-  );
-  return {
-    success: true,
-    message: null,
-    user: user,
-    token: token,
-    timestamp: timestamp,
-  };
+  try {
+    const [user, token, timestamp] = await userService.login(
+      request.alias,
+      request.password
+    );
+    return {
+      success: true,
+      message: null,
+      user: user,
+      token: token,
+      timestamp: timestamp,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: (error as Error).message,
+      user: null,
+      token: "",
+      timestamp: 0,
+    };
+  }
 };
