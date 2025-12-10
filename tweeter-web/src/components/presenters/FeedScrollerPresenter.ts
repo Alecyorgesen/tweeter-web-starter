@@ -1,5 +1,8 @@
 import { Status, AuthToken } from "tweeter-shared";
-import { ItemScrollerPresenter, ItemScrollerView } from "./ItemScrollerPresenter";
+import {
+  ItemScrollerPresenter,
+  ItemScrollerView,
+} from "./ItemScrollerPresenter";
 
 export class FeedScrollerPresenter extends ItemScrollerPresenter<Status> {
   constructor(view: ItemScrollerView<Status>) {
@@ -11,7 +14,7 @@ export class FeedScrollerPresenter extends ItemScrollerPresenter<Status> {
     userAlias: string,
     pageSize: number,
     lastItem: Status | null
-  ): Promise<[Status[], boolean]> => {
+  ): Promise<[Status[], Status | null, boolean]> => {
     // TODO: Replace with the result of calling server
     return this.statusService.getFeedItems(
       authToken,
@@ -19,5 +22,5 @@ export class FeedScrollerPresenter extends ItemScrollerPresenter<Status> {
       pageSize,
       lastItem
     );
-  }
+  };
 }

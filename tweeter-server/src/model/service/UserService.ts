@@ -56,6 +56,13 @@ export class UserService {
     userImageBytes: Base64URLString,
     imageFileExtension: string
   ): Promise<[UserDto | null, string, number]> => {
+    if (alias.at(0) != "@") {
+      throw Error("bad-request: Alias requires @ first");
+    }
+    if (alias.length < 2) {
+      throw Error("bad-request: Must have an alias");
+    }
+
     let [existingUser, hashedPassword] = await this.userDAO.getUser(alias);
     if (existingUser) {
       throw Error("bad-request: Username already taken");

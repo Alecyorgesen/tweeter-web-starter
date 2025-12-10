@@ -50,7 +50,7 @@ export class FollowService {
     userAlias: string,
     pageSize: number,
     lastFollowee: User | null
-  ): Promise<[User[], boolean]> => {
+  ): Promise<[User[], User|null, boolean]> => {
     const request: PagedItemRequest<UserDto> = {
       token: authToken.token,
       userAlias: userAlias,
@@ -65,7 +65,7 @@ export class FollowService {
     userAlias: string,
     pageSize: number,
     lastFollower: User | null
-  ): Promise<[User[], boolean]> => {
+  ): Promise<[User[], User|null, boolean]> => {
     const request: PagedItemRequest<UserDto> = {
       token: authToken.token,
       userAlias: userAlias,

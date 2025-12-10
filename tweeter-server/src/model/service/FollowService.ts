@@ -46,7 +46,7 @@ export class FollowService {
     userAlias: string,
     pageSize: number,
     lastItem: UserDto | null
-  ): Promise<[UserDto[], boolean]> => {
+  ): Promise<[UserDto[], UserDto | null]> => {
     return await this.getPeople(
       userAlias,
       pageSize,
@@ -60,7 +60,7 @@ export class FollowService {
     userAlias: string,
     pageSize: number,
     lastItem: UserDto | null
-  ): Promise<[UserDto[], boolean]> => {
+  ): Promise<[UserDto[], UserDto | null]> => {
     return await this.getPeople(
       userAlias,
       pageSize,
@@ -80,15 +80,14 @@ export class FollowService {
       lastItem: FollowEntry | null
     ) => Promise<DataPage<FollowEntry>>,
     follow: string
-  ): Promise<[UserDto[], boolean]> => {
+  ): Promise<[UserDto[], UserDto | null]> => {
     let lastFollowEntry: FollowEntry | null = null;
     const userDtos: UserDto[] = [];
     if (lastItem) {
-      if (follow == "follower") {
-        lastFollowEntry = this.makeFollowEntry(lastItem.alias, userAlias);
-      } else if (follow == "followee") {
-        lastFollowEntry = this.makeFollowEntry(userAlias, lastItem.alias);
-      }
+      lastFollowEntry = this.makeFollowEntry(
+        lastItem.firstName,
+        lastItem.lastName
+      );
     }
     const followsPage = await getPage(userAlias, pageSize, lastFollowEntry);
 
@@ -107,8 +106,16 @@ export class FollowService {
       }
       userDtos.push(user);
     }
-
-    return [userDtos, followsPage.hasMorePages];
+    let lastUser: UserDto | null = null;
+    if (followsPage.lastKey) {
+      lastUser = {
+        firstName: followsPage.lastKey.followerHandle,
+        lastName: followsPage.lastKey.followeeHandle,
+        alias: "",
+        imageUrl: "",
+      };
+    }
+    return [userDtos, lastUser];
   };
 
   follow = async (userAlias: string, followeeAlias: string) => {

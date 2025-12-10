@@ -14,7 +14,7 @@ export class StatusService {
     userAlias: string,
     pageSize: number,
     lastItem: Status | null
-  ): Promise<[Status[], boolean]> => {
+  ): Promise<[Status[], Status | null, boolean]> => {
     const request: PagedItemRequest<StatusDto> = {
       token: authToken.token,
       userAlias: userAlias,
@@ -29,7 +29,7 @@ export class StatusService {
     userAlias: string,
     pageSize: number,
     lastItem: Status | null
-  ): Promise<[Status[], boolean]> => {
+  ): Promise<[Status[], Status | null, boolean]> => {
     const request: PagedItemRequest<StatusDto> = {
       token: authToken.token,
       userAlias: userAlias,

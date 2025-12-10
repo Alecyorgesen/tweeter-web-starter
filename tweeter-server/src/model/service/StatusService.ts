@@ -38,25 +38,25 @@ export class StatusService {
     userAlias: string,
     pageSize: number,
     lastItem: StatusDto | null
-  ): Promise<[StatusDto[], boolean]> => {
+  ): Promise<[StatusDto[], StatusDto | null]> => {
     const [statuses, newLastItem] = await this.storyDAO.getPageOfStories(
       userAlias,
       pageSize,
       lastItem
     );
-    return [statuses, newLastItem == null ? false : true];
+    return [statuses, newLastItem];
   };
   public getFeedItems = async (
     userAlias: string,
     pageSize: number,
     lastItem: StatusDto | null
-  ): Promise<[StatusDto[], boolean]> => {
+  ): Promise<[StatusDto[], StatusDto | null]> => {
     const [statuses, newLastItem] = await this.feedDAO.getPageOfFeed(
       userAlias,
       pageSize,
       lastItem
     );
-    return [statuses, newLastItem == null ? false : true];
+    return [statuses, newLastItem];
   };
 
   public postStatus = async (newStatus: StatusDto): Promise<void> => {

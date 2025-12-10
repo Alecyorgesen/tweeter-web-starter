@@ -11,7 +11,7 @@ export class FollowerScrollerPresenter extends ItemScrollerPresenter<User> {
     userAlias: string,
     pageSize: number,
     lastItem: User | null
-  ): Promise<[User[], boolean]> => {
+  ): Promise<[User[], User|null, boolean]> => {
     // TODO: Replace with the result of calling server
     return await this.followService.getFollowers(authToken, userAlias, pageSize, lastItem);
   }

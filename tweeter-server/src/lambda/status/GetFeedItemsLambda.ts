@@ -25,7 +25,7 @@ export const handler = async (
 ): Promise<PagedItemResponse<StatusDto>> => {
   await authService.isTokenValid(request.token, TIME_VALID);
 
-  const [statuses, hasMore] = await statusService.getFeedItems(
+  const [statuses, lastItem] = await statusService.getFeedItems(
     request.userAlias,
     request.pageSize,
     request.lastItem
@@ -34,6 +34,7 @@ export const handler = async (
     success: true,
     message: null,
     items: statuses,
-    hasMore: hasMore,
+    lastItem: lastItem,
+    hasMore: lastItem == null ? false : true,
   };
 };

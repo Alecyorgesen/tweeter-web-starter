@@ -12,7 +12,7 @@ export class StoryScrollerPresenter extends ItemScrollerPresenter<Status> {
     userAlias: string,
     pageSize: number,
     lastItem: Status | null
-  ): Promise<[Status[], boolean]> => {
+  ): Promise<[Status[], Status | null, boolean]> => {
     // TODO: Replace with the result of calling server
     return this.statusService.getStoryItems(
       authToken,

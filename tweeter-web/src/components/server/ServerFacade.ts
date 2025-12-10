@@ -28,7 +28,7 @@ export class ServerFacade {
 
   public async getMoreFollowees(
     request: PagedItemRequest<UserDto>
-  ): Promise<[User[], boolean]> {
+  ): Promise<[User[], User | null, boolean]> {
     const response = await this.clientCommunicator.doPost<
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
@@ -44,7 +44,7 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No followees found`);
       } else {
-        return [items, response.hasMore];
+        return [items, User.fromDto(response.lastItem), response.hasMore];
       }
     } else {
       console.error(response);
@@ -54,7 +54,7 @@ export class ServerFacade {
 
   public async getMoreFollowers(
     request: PagedItemRequest<UserDto>
-  ): Promise<[User[], boolean]> {
+  ): Promise<[User[], User | null, boolean]> {
     const response = await this.clientCommunicator.doPost<
       PagedItemRequest<UserDto>,
       PagedItemResponse<UserDto>
@@ -70,7 +70,7 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No followers found`);
       } else {
-        return [items, response.hasMore];
+        return [items, User.fromDto(response.lastItem), response.hasMore];
       }
     } else {
       console.error(response);
@@ -80,7 +80,7 @@ export class ServerFacade {
 
   public async getStoryItems(
     request: PagedItemRequest<StatusDto>
-  ): Promise<[Status[], boolean]> {
+  ): Promise<[Status[], Status | null, boolean]> {
     const response = await this.clientCommunicator.doPost<
       PagedItemRequest<StatusDto>,
       PagedItemResponse<StatusDto>
@@ -97,7 +97,7 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No followers found`);
       } else {
-        return [items, response.hasMore];
+        return [items, Status.fromDto(response.lastItem), response.hasMore];
       }
     } else {
       console.error(response);
@@ -107,7 +107,7 @@ export class ServerFacade {
 
   public async getFeedItems(
     request: PagedItemRequest<StatusDto>
-  ): Promise<[Status[], boolean]> {
+  ): Promise<[Status[], Status | null, boolean]> {
     const response = await this.clientCommunicator.doPost<
       PagedItemRequest<StatusDto>,
       PagedItemResponse<StatusDto>
@@ -124,7 +124,7 @@ export class ServerFacade {
       if (items == null) {
         throw new Error(`No feed items found`);
       } else {
-        return [items, response.hasMore];
+        return [items, Status.fromDto(response.lastItem), response.hasMore];
       }
     } else {
       console.error(response);

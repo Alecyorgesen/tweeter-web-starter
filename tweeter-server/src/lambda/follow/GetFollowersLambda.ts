@@ -16,7 +16,7 @@ export const handler = async (
 ): Promise<PagedItemResponse<UserDto>> => {
   await authService.isTokenValid(request.token, TIME_VALID);
 
-  const [items, hasMore] = await followService.getFollowers(
+  const [items, lastItem] = await followService.getFollowers(
     request.userAlias,
     request.pageSize,
     request.lastItem
@@ -26,6 +26,7 @@ export const handler = async (
     success: true,
     message: null,
     items: items,
-    hasMore: hasMore,
+    lastItem: lastItem,
+    hasMore: lastItem == null ? false : true,
   };
 };
