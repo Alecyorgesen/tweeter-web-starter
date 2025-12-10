@@ -35,11 +35,11 @@ export class FollowService {
   };
 
   getFolloweeCount = async (userAlias: string): Promise<number> => {
-    return await this.userDAO.getUserFollowersAmount(userAlias);
+    return await this.userDAO.getUserFolloweesAmount(userAlias);
   };
 
   getFollowerCount = async (userAlias: string): Promise<number> => {
-    return await this.userDAO.getUserFolloweesAmount(userAlias);
+    return await this.userDAO.getUserFollowersAmount(userAlias);
   };
 
   getFollowees = async (
@@ -53,6 +53,20 @@ export class FollowService {
       lastItem,
       this.followDAO.getPageOfFollowees,
       "followee"
+    );
+  };
+
+  getFollowers = async (
+    userAlias: string,
+    pageSize: number,
+    lastItem: UserDto | null
+  ): Promise<[UserDto[], boolean]> => {
+    return await this.getPeople(
+      userAlias,
+      pageSize,
+      lastItem,
+      this.followDAO.getPageOfFollowers,
+      "follower"
     );
   };
 
@@ -95,20 +109,6 @@ export class FollowService {
     }
 
     return [userDtos, followsPage.hasMorePages];
-  };
-
-  getFollowers = async (
-    userAlias: string,
-    pageSize: number,
-    lastItem: UserDto | null
-  ): Promise<[UserDto[], boolean]> => {
-    return await this.getPeople(
-      userAlias,
-      pageSize,
-      lastItem,
-      this.followDAO.getPageOfFollowees,
-      "follower"
-    );
   };
 
   follow = async (userAlias: string, followeeAlias: string) => {

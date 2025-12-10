@@ -48,7 +48,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -74,7 +74,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -101,7 +101,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -128,7 +128,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -142,7 +142,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -156,7 +156,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -170,7 +170,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -185,7 +185,7 @@ export class ServerFacade {
       return response.amount;
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -200,7 +200,7 @@ export class ServerFacade {
       return response.amount;
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -217,7 +217,7 @@ export class ServerFacade {
       return response.isFollower;
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -232,7 +232,7 @@ export class ServerFacade {
       return User.fromDto(response.user);
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -255,7 +255,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -278,7 +278,7 @@ export class ServerFacade {
       }
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 
@@ -291,7 +291,7 @@ export class ServerFacade {
     if (response.success) {
     } else {
       console.error(response);
-      throw new Error(response.message ?? response.errorMessage ?? undefined);
+      throw new Error(response.message ?? undefined);
     }
   }
 }

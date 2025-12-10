@@ -11,12 +11,14 @@ import { FollowDAOFactoryDynamoDB } from "../../model/factories/FollowDAOFactory
 import { AuthDAOFactoryDynamoDB } from "../../model/factories/AuthDAOFactoryDynamoDB";
 import { AuthService } from "../../model/service/AuthService";
 import { TIME_VALID } from "../AuthTokenValidTime";
+import { UserDAOFactoryDynamoDB } from "../../model/factories/UserDAOFactoryDynamoDB";
 
 const authService = new AuthService(new AuthDAOFactoryDynamoDB());
 const statusService = new StatusService(
   new FeedDAOFactoryDynamoDB(),
   new StoryDAOFactoryDynamoDB(),
-  new FollowDAOFactoryDynamoDB()
+  new FollowDAOFactoryDynamoDB(),
+  new UserDAOFactoryDynamoDB()
 );
 export const handler = async (
   request: PagedItemRequest<StatusDto>
@@ -33,6 +35,5 @@ export const handler = async (
     message: null,
     items: statuses,
     hasMore: hasMore,
-    errorMessage: null,
   };
 };

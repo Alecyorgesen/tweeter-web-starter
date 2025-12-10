@@ -31,6 +31,5 @@ export const handler = async (
     success: true,
     message: null,
     user: user,
-    errorMessage: null,
   };
 };

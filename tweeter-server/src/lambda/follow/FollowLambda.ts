@@ -21,6 +21,5 @@ export const handler = async (
   return {
     success: true,
     message: null,
-    errorMessage: null,
   };
 };

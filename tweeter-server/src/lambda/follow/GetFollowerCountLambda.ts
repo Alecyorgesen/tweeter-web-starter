@@ -28,6 +28,5 @@ export const handler = async (
     success: true,
     message: null,
     amount: follower_number,
-    errorMessage: null,
   };
 };

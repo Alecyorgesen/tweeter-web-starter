@@ -20,9 +20,7 @@ export class FollowDAODynamoDB implements FollowDAO {
   readonly tableName = "follow";
   readonly followerAttribute = "follower_alias";
   readonly followeeAttribute = "followee_alias";
-  readonly followerName = "follower_name";
   readonly indexName = "follow_index";
-  readonly followeeName = "followee_name";
 
   async putFollowEntry(followEntry: FollowEntry) {
     const command = new PutCommand({
@@ -53,8 +51,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       return new FollowEntry(
         item[this.followerAttribute],
         item[this.followeeAttribute],
-        item[this.followerName],
-        item[this.followeeName]
       );
     } else {
       return null;
@@ -69,6 +65,7 @@ export class FollowDAODynamoDB implements FollowDAO {
     const command = new QueryCommand({
       TableName: this.tableName,
       Limit: pageSize,
+      ScanIndexForward: false,
       KeyConditionExpression: `${this.followerAttribute} = :h`,
       ExclusiveStartKey:
         lastItem == null
@@ -90,8 +87,6 @@ export class FollowDAODynamoDB implements FollowDAO {
           new FollowEntry(
             item[this.followerAttribute],
             item[this.followeeAttribute],
-            item[this.followerName],
-            item[this.followeeName]
           )
         );
       }
@@ -104,8 +99,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       lastFollowEntry = {
         followerHandle: lastKey[this.followerAttribute],
         followeeHandle: lastKey[this.followeeAttribute],
-        followerName: lastKey[this.followerName],
-        followeeName: lastKey[this.followeeName],
       };
     }
     return new DataPage(followees, lastFollowEntry);
@@ -120,6 +113,7 @@ export class FollowDAODynamoDB implements FollowDAO {
       TableName: this.tableName,
       IndexName: this.indexName,
       Limit: pageSize,
+      ScanIndexForward: false,
       KeyConditionExpression: `${this.followeeAttribute} = :h`,
       ExclusiveStartKey:
         lastItem == null
@@ -141,8 +135,6 @@ export class FollowDAODynamoDB implements FollowDAO {
           new FollowEntry(
             item[this.followerAttribute],
             item[this.followeeAttribute],
-            item[this.followerName],
-            item[this.followeeName]
           )
         );
       }
@@ -155,8 +147,6 @@ export class FollowDAODynamoDB implements FollowDAO {
       lastFollowEntry = {
         followerHandle: lastKey[this.followerAttribute],
         followeeHandle: lastKey[this.followeeAttribute],
-        followerName: lastKey[this.followerName],
-        followeeName: lastKey[this.followeeName],
       };
     }
     return new DataPage(followers, lastFollowEntry);
@@ -180,8 +170,6 @@ export class FollowDAODynamoDB implements FollowDAO {
           new FollowEntry(
             item[this.followerAttribute],
             item[this.followeeAttribute],
-            item[this.followerName],
-            item[this.followeeName]
           )
         );
       }
@@ -206,8 +194,6 @@ export class FollowDAODynamoDB implements FollowDAO {
           new FollowEntry(
             item[this.followerAttribute],
             item[this.followeeAttribute],
-            item[this.followerName],
-            item[this.followeeName]
           )
         );
       }

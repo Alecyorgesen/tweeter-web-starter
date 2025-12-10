@@ -3,6 +3,8 @@ import { StoryDAO } from "../dao/StoryDAO";
 import { FeedDAO } from "../dao/FeedDAO";
 import { FollowDAO } from "../dao/FollowDAO";
 import { FollowEntry } from "../dao/FollowEntry";
+import { UserDAOFactory } from "./UserService";
+import { UserDAO } from "../dao/UserDAO";
 
 export interface FeedDAOFactory {
   make: () => FeedDAO;
@@ -19,14 +21,17 @@ export class StatusService {
   storyDAO: StoryDAO;
   feedDAO: FeedDAO;
   followDAO: FollowDAO;
+  userDAO: UserDAO;
   constructor(
     feedDAOFactory: FeedDAOFactory,
     storyDAOFactory: StoryDAOFactory,
-    followDAOFactory: FollowDAOFactory
+    followDAOFactory: FollowDAOFactory,
+    userDAOFactory: UserDAOFactory
   ) {
     this.storyDAO = storyDAOFactory.make();
     this.feedDAO = feedDAOFactory.make();
     this.followDAO = followDAOFactory.make();
+    this.userDAO = userDAOFactory.make();
   }
 
   public getStoryItems = async (
@@ -59,7 +64,6 @@ export class StatusService {
     const followers: UserDto[] = [];
     let hasMore = false;
     let lastItem: FollowEntry | null = null;
-    let nextFollowers: UserDto[] = [];
 
     await this.storyDAO.putStoryEntry(
       user.alias,
@@ -73,8 +77,11 @@ export class StatusService {
         10,
         lastItem
       );
+      for (let followEntry of dataPage.values) {
+        const [userDto, password] = await this.userDAO.getUser(followEntry.followerHandle);
+        followers.push(userDto!);
+      }
       lastItem = dataPage.lastKey;
-      followers.push(...nextFollowers);
     } while (hasMore);
 
     for (let follower of followers) {

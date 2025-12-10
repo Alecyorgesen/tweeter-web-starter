@@ -21,6 +21,5 @@ export const handler = async (
     user: user,
     token: token,
     timestamp: timestamp,
-    errorMessage: null,
   };
 };
